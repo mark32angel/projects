@@ -1,1 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS styles can be added here */
+        body {
+            padding-top: 50px; /* Add padding to the top to accommodate the fixed navbar */
+            background-color: #f8f9fa; /* Set background color */
+        }
+        .container {
+            max-width: 600px; /* Set maximum width for the container */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+        <span class="navbar-brand mb-0 h1">Payment Form</span>
+    </nav>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title text-center">Payment Information</h1>
+                <p class="card-text text-center">Please review the details below and proceed with the payment.</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>First Name:</strong> <span id="firstName"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Last Name:</strong> <span id="lastName"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Email:</strong> <span id="email"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Phone Number:</strong> <span id="phoneNumber"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Invoice Number:</strong> <span id="invoiceNumber"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Amount:</strong> <span id="amount"></span>
+                    </li>
+                    <!-- Add more list items as needed -->
+                </ul>
+                <div class="text-center mt-3">
+                    <button class="btn btn-primary" onclick="payNow()">Pay Now</button>
+                </div>
+                <div class="text-center mt-3" id="responseCapsule">
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery (Optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to handle payment process when the "Pay Now" button is clicked
+        function payNow() {
+           const firstName = document.getElementById('firstName').textContent;
+            const lastName = document.getElementById('lastName').textContent;
+            const amount = document.getElementById('amount').textContent;
+            const email = document.getElementById('email').textContent;
+            const phoneNumber = document.getElementById('phoneNumber').textContent;
+
+
+
+
+             var myHeaders = new Headers();
+             myHeaders.append("X-API-LOGIN-ID", "ATG5990");
+             myHeaders.append("X-API-TRANSACTION-KEY", "A092562D437447A6");
+             myHeaders.append("X-API-AUTHENTICATION-METHOD", "KEY");
+             myHeaders.append("X-API-FOR-CLIENT", "91314");
+
+        var requestOptions = {
+       method: 'GET',
+       headers: myHeaders,
+       redirect: 'follow'
+    };
+
+    var apiUrl = 'https://payments.agapay.gives/l2p/services/paymentForm/6BF04022?firstName=' + firstName + '&lastName=' + lastName + '&businessName=TestBusinessName&email=' + email + '&phone=' + phoneNumber + '&referenceId=ABC123&externalId=XYZ456&amount=' + amount;
+
+       fetch(apiUrl, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+        
+        
+        }
+
+        // Extract GET variables from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const firstName = urlParams.get('firstName');
+        const lastName = urlParams.get('lastName');
+        const email = urlParams.get('email');
+        const phoneNumber = urlParams.get('phoneNumber');
+        const invoiceNumber = urlParams.get('invoiceNumber');
+        const amount = urlParams.get('amount');
+        // Retrieve other GET variables and process them as needed
+
+        // Display GET variable values on the page
+        document.getElementById('firstName').textContent = firstName;
+        document.getElementById('lastName').textContent = lastName;
+        document.getElementById('email').textContent = email;
+        document.getElementById('phoneNumber').textContent = phoneNumber;
+        document.getElementById('invoiceNumber').textContent = invoiceNumber;
+        document.getElementById('amount').textContent = amount;
+        // Update other elements with the corresponding GET variable values
+    </script>
+</body>
+</html>
 
